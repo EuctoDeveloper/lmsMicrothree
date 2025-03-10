@@ -95,6 +95,7 @@ const CourseRepo = {
         return course;
     },
     getCourseById: async (courseId, userId) => {
+        console.log("getting course", courseId, userId)
         let course = await Course.aggregate([
             {
             $match: { courseId: parseInt(courseId) }
@@ -129,7 +130,7 @@ const CourseRepo = {
             }
         ]);
         course = course[0];
-
+        console.log(course, "course2")
         if (course) {
             const modules = await Module.aggregate([
                     { $match: { course: course.courseId } },
@@ -206,6 +207,7 @@ const CourseRepo = {
                                 source: 1,
                                 totalGrade: 1,
                                 questions: 1,
+                                activity: 1,
                                 progress: {
                                     isCompleted: 1,
                                     completedAt: 1,
@@ -227,14 +229,16 @@ const CourseRepo = {
                         }
                     }
                 ]);
+            console.log(modules[0].lessons, "modules")
             course = {...course, modules};
         }
+        console.log(course, "course")
         return course;
     },
     getCourseById2: async (courseId, userId) => {
         let course = await Course.findOne({courseId});
         let enrollment = await Enrollment.findOne({student: userId, course: courseId});
-        if (course) {
+        if (course && enrollment) {
             const modules = await Module.aggregate([
                 { $match: { course: course.courseId } },
                 {
@@ -371,6 +375,7 @@ const CourseRepo = {
                 totalGrade: "$lesson.totalGrade",
                 questions: "$lesson.questions",
                 answeredQuestion: "$questions",
+                activity: "$lesson.activity",
                 isCompleted: 1,
                 completedAt: 1,
                 completedPercentage: 1,
@@ -378,11 +383,13 @@ const CourseRepo = {
                 isLessonCompleted: 1,
                 score: 1,
                 enrollmentId: 1,
+                lmId: "$lesson.module",
                 courseId: "$lesson.course",
                 module: "$modules",
             }
         }]);
-        return lesson[0];
+        const modules = await Module.find({ course: lessonDoc.course }).sort({ moduleId: -1 });
+        return {...lesson[0], isLastModule: modules[0].moduleId === lesson[0].lmId};
     },
     getEnrolledCourse: async (userData) => {
         const enrolledCourses = await Enrollment.aggregate([

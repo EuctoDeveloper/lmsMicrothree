@@ -7,6 +7,7 @@ import config from './src/configs/config.js';
 import courseRouter from './src/routers/courseRoute.js';
 import adminCourseRouter from './src/routers/adminCourseRoute.js';
 import cors from 'cors';
+import webinarRouter from './src/routers/WebinarRoute.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -32,6 +33,7 @@ app.get('/stream', (req, res) => {
   
 app.use("/stream", courseRouter);
 app.use("/stream/admin", adminCourseRouter);
+app.use("/stream/webinar", webinarRouter);
 
 mongoose.connect(config.mongoDbUri).then(() => {
     console.log('Connected to MongoDB');

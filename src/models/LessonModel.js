@@ -56,6 +56,29 @@ const lessonSchema = new mongoose.Schema({
             required: true
         }
     }],
+    activity: [{
+        type: {
+            type: String,
+        },
+        questions: [{
+            question: {
+                type: String,
+            },
+            answer: {
+                type: mongoose.Schema.Types.Mixed,
+                validate: {
+                    validator: function(v) {
+                        return typeof v === 'string' || typeof v === 'boolean';
+                    },
+                    message: props => `${props.value} is not a valid answer type!`
+                }
+            }
+        }],
+        active: {
+            type: Boolean
+        }
+
+    }],
     totalGrade: {
         type: Number,
         required: true

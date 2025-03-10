@@ -26,6 +26,8 @@ const envVarsSchema = Joi.object().keys({
     S3_SECRET_KEY: Joi.string().required(),
     S3_REGION: Joi.string().required(),
     S3_ENDPOINT: Joi.string().required(),
+    ZOOM_MEETING_SDK_KEY: Joi.string().required(),
+    ZOOM_MEETING_SDK_SECRET: Joi.string().required(),
 }).unknown(true);
 
 const { error, value } = envVarsSchema.validate(process.env);
@@ -45,4 +47,6 @@ export default {
     s3SecretKey: value.S3_SECRET_KEY,
     s3Region: value.S3_REGION,
     s3Endpoint: value.S3_ENDPOINT,
+    zoomMeetingSdkKey: value.ZOOM_MEETING_SDK_KEY,
+    zoomMeetingSdkSecret: value.ZOOM_MEETING_SDK_SECRET,
 }
