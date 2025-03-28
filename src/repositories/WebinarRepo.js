@@ -7,7 +7,7 @@ const WebinarRepo = {
         const webinars = await Webinar.aggregate([
             { $match: {$and: [
                 cond,
-                {invitees: { $elemMatch: { $eq: 82 } }}
+                {invitees: { $elemMatch: { $eq: userId } }}
             ]}},
             { $sort: { webinarDate: 1 } },
             { $group: { _id: { $dateToString: { format: "%Y-%m-%d", date: "$date" } }, webinars: { $push: "$$ROOT" } } },

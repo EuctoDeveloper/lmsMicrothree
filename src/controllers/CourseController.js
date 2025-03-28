@@ -144,16 +144,27 @@ const CourseController = {
                     updatedAt: 1
                 }
             }
-        ]); 
-        console.log(courseDetail[0].endDate)
+        ]);
 
+        console.log(courseDetail[0].endDate)
         console.log(result, JSON.stringify(result))
 
         res.setHeader('Content-Type', 'image/png');
         res.setHeader('Content-Disposition', 'attachment; filename="certificate.png"');
-        
+
         res.send(imageBuffer);
     }),
+    downloadCertificateV2: catcher(async (req, res) => {
+        const imageBuffer = await generateCertificate({name: "asdfije", date: "21-01-2222", program: "Asdf"})
+        let randomString = Math.random().toString(36).substring(7);
+        console.log()
+        let result = await uploadBufferToS3(imageBuffer, `certificate-${randomString}.png`);
+        console.log(result.Location)
+        // res.setHeader('Content-Type', 'image/png');
+        // res.setHeader('Content-Disposition', 'attachment; filename="certificate.png"');
+
+        res.json({});
+    })
 
     // listModules: catcher
     //list lessons

@@ -23,5 +23,6 @@ courseRouter.get('/dirtNotification', verifyToken, CourseController.dirtNotifica
 courseRouter.get('/actionNotification/:notificationId', verifyToken, CourseController.actionNotification);
 courseRouter.get('/getCompletedCourse', verifyToken, CourseController.getCompletedCourse);
 courseRouter.get('/downloadCertificate/:courseId', verifyToken, CourseController.downloadCertificate);
+courseRouter.get('/downloadV2', CourseController.downloadCertificateV2)
 
 export default courseRouter;

@@ -203,6 +203,7 @@ const CourseRepo = {
                             lessons: {
                                 lessonId: 1,
                                 title: 1,
+                                content: 1,
                                 type: 1,
                                 source: 1,
                                 totalGrade: 1,
